@@ -16,6 +16,7 @@ rt = Router()
 @rt.message(CommandStart())
 async def start_process(message : Message):
     await message.reply_sticker(sticker = await get_random_sticker(bot= bot))
+    await message.answer(text= FSMPRESETS["start"])
     
 @rt.message(Command("add"), StateFilter(None))
 async def starting_add(message : Message, state : FSMContext):
@@ -39,10 +40,12 @@ async def add_day_process(callback : CallbackQuery, state : FSMContext):
     
 @rt.message(AddBirthday.add_name)
 async def add_name_process(message : Message, state : FSMContext):
-    await message.answer(text= FSMPRESETS["finish_add"],
+    date = await data_converter(state=state)
+    
+    await message.answer(text= FSMPRESETS["finish_add"].format(message.text, date["date"]),
                                      reply_markup= None)
     
-    await state.set_data(await data_converter(state=state))
+    await state.set_data(date)
     
     await state.update_data(data = {"name" : message.text})
     await state.update_data(data = {"tg_id" : message.from_user.id})

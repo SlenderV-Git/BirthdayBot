@@ -2,12 +2,13 @@ from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from calendar import monthrange
 import datetime
+import calendar
 
 def month_kb():
     build = InlineKeyboardBuilder()
     for month in range(1, 13):
-        build.add(InlineKeyboardButton(text= str(month), callback_data=f"{month}_month"))
-    return build.adjust(4).as_markup()
+        build.add(InlineKeyboardButton(text= calendar.month_name[month], callback_data=f"{month}_month"))
+    return build.adjust(2).as_markup()
 
 def day_kb(month : str):
     build = InlineKeyboardBuilder()

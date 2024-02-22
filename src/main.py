@@ -1,20 +1,22 @@
 import asyncio
 from aiogram import Dispatcher, Bot
 from config.config import load_config
-from aiogram.types import Message, BotDescription, BotName
+from aiogram.methods import set_my_description, set_my_name, set_chat_photo
 from handlers import admin_handler, user_handler
 from services.commands import set_menu_commands
 from aiogram.fsm.storage.memory import MemoryStorage
-from services.stiker_set import get_random_sticker
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from services.news_sendler import send_message
-from datetime import datetime, timedelta
+from lexicon.lexicon import BOT_SETTING
 
 
 bot = Bot(token= load_config().bot_token)
 
 async def main():
     storage = MemoryStorage()
+    
+    # await bot.set_my_name(BOT_SETTING["name"])
+    # await bot.set_my_description(BOT_SETTING["description"])
     
     scheduler = AsyncIOScheduler(timezone ="Europe/Moscow")
     scheduler.add_job(send_message, trigger="interval", seconds = 60, kwargs={"bot" : bot, "id" : 1544965726})

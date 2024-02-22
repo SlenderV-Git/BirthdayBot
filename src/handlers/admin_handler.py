@@ -6,6 +6,3 @@ rt = Router()
 rt.message.filter(AdminOnly())
 rt.callback_query.filter(AdminOnly())
 
-@rt.message()
-async def se(message : Message):
-    await message.answer(text = "admin")
